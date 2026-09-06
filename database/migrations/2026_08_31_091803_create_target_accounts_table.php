@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('target_accounts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
+            $table->foreignId('business_pillar_id')->constrained('business_pillars')->cascadeOnDelete();
+            $table->foreignId('assigned_sales_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('priority')->default('medium'); 
+            $table->string('status')->default('prospect'); 
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('target_accounts');
+    }
+};
